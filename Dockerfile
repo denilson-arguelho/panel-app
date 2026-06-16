@@ -1,12 +1,6 @@
 # Stage 1: Build
-FROM node:10-slim AS build
-
-# Install build dependencies for node-sass and other native modules
-RUN apt-get update && apt-get install -y \
-    python \
-    make \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
+# Using the full node:10 image which already includes build tools (make, g++, python)
+FROM node:10 AS build
 
 WORKDIR /app
 
@@ -22,10 +16,9 @@ RUN npm run build:web
 FROM nginx:alpine
 
 # Copy built assets from stage 1
-# Note: based on webpack.web.config.js, the output path is dist/web
 COPY --from=build /app/dist/web /usr/share/nginx/html
 
-# Custom nginx config to handle SPA routing if needed
+# Custom nginx config to handle SPA routing
 RUN echo 'server { \
     listen 80; \
     location / { \
