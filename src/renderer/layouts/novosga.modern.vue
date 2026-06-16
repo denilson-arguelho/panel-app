@@ -5,16 +5,11 @@
       <i class="fa" :class="isFullscreen ? 'fa-compress' : 'fa-expand'"></i>
     </div>
 
-    <!-- Main Grid Layout -->
+    <!-- Main Grid Layout (Based on User Image) -->
     <div class="main-grid">
-      <!-- Header Section (Relógio) -->
-      <header class="header-section" :style="{ 'background-color': color('clockBgColor'), 'color': color('clockFontColor') }">
-        <clock :locale="config.locale" :dateFormat="'date_format'|trans" :fontColor="color('clockFontColor')"></clock>
-      </header>
-
-      <!-- Main Content Area (Vídeo/YouTube ou Senha) -->
+      <!-- MAIN CONTENT (LEFT) -->
       <main class="main-content">
-        <div v-if="showVideo && config.themeOptions.videoUrl" class="video-container">
+        <div class="video-container">
           <iframe
             v-if="isYoutubeUrl(config.themeOptions.videoUrl)"
             :src="getEmbedUrl(config.themeOptions.videoUrl)"
@@ -23,36 +18,42 @@
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
           </iframe>
-          <video v-else :src="config.themeOptions.videoUrl" class="video-player" autoplay loop muted></video>
+          <video v-else-if="config.themeOptions.videoUrl" :src="config.themeOptions.videoUrl" class="video-player" autoplay loop muted></video>
+          <div v-else class="no-video">
+            <img :src="logoUrl" class="main-logo-placeholder">
+          </div>
         </div>
-        <featured v-else :message="lastMessage" v-if="lastMessage" :fontColor="color('featuredFontColor', 'pageFontColor')"></featured>
       </main>
 
-      <!-- Sidebar Right (Histórico) -->
-      <aside class="sidebar-right" :style="{ 'background-color': color('sidebarBgColor'), 'color': color('sidebarFontColor') }">
-        <div class="sidebar-header">
-          <h2 class="title" :style="{ 'color': color('sidebarFontColor') }">
-            {{ 'history.title'|trans }}
-          </h2>
-          <history
-            v-if="lastMessage"
-            :messages="messages"
-            :fontColorNormal="config.historyFontColorNormal || config.sidebarFontColorNormal"
-            :fontColorPriority="config.historyFontColorPriority || config.sidebarFontColorPriority">
-          </history>
-        </div>
+      <!-- SIDEBAR (RIGHT) -->
+      <aside class="sidebar-right">
+        <!-- SIDEBAR HEADER: RELÓGIO -->
+        <header class="sidebar-header-section" :style="{ 'background-color': color('clockBgColor'), 'color': color('clockFontColor') }">
+          <clock :locale="config.locale" :dateFormat="'date_format'|trans" :fontColor="color('clockFontColor')"></clock>
+        </header>
+
+        <!-- SIDEBAR CONTENT: SENHA EM DESTAQUE -->
+        <section class="sidebar-content-section" :style="{ 'background-color': color('sidebarBgColor'), 'color': color('sidebarFontColor') }">
+          <featured v-if="lastMessage" :message="lastMessage" :fontColor="color('featuredFontColor', 'sidebarFontColor')"></featured>
+          <div v-else class="waiting-message">
+            {{ 'history.empty'|trans }}
+          </div>
+        </section>
+
+        <!-- SIDEBAR FOOTER: CLIMA E TEMPO -->
+        <footer class="sidebar-footer-section" :style="{ 'background-color': color('footerBgColor'), 'color': color('footerFontColor') }">
+          <weather :fontColor="color('footerFontColor')"></weather>
+        </footer>
       </aside>
 
-      <!-- Footer Section -->
-      <footer class="footer-section" :style="{ 'background-color': color('footerBgColor'), 'color': color('footerFontColor') }">
-        <div class="footer-left">
-          <img :src="logoUrl" class="logo">
-          <h3 v-if="config.themeOptions.footerText" :style="{ 'color': color('footerFontColor') }">
-            {{ config.themeOptions.footerText }}
-          </h3>
-        </div>
-        <div class="footer-right">
-          <weather :fontColor="color('footerFontColor')"></weather>
+      <!-- MAIN FOOTER (BOTTOM LEFT) -->
+      <footer class="main-footer-section" :style="{ 'background-color': color('footerBgColor'), 'color': color('footerFontColor') }">
+        <div class="history-wrapper">
+          <history
+            :messages="messages"
+            :fontColorNormal="config.historyFontColorNormal || config.footerFontColorNormal"
+            :fontColorPriority="config.historyFontColorPriority || config.footerFontColorPriority">
+          </history>
         </div>
       </footer>
     </div>
@@ -78,10 +79,9 @@
     data () {
       return {
         isCalling: false,
-        lastMessage: {},
+        lastMessage: null,
         messageQueue: [],
-        isFullscreen: false,
-        showVideo: false
+        isFullscreen: false
       }
     },
     computed: {
@@ -111,7 +111,6 @@
         }
         this.isCalling = true
         this.lastMessage = this.messageQueue.shift()
-        this.showVideo = false
         
         audio.playAlert(this.config.alert)
           .then(() => {
@@ -160,12 +159,12 @@
           videoId = url.split('youtu.be/')[1].split('?')[0]
         }
         
-        return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}`
       },
       color (prefix, fallback) {
-        const peso = this.lastMessage.$data ? this.lastMessage.$data.peso : 0
+        const peso = this.lastMessage && this.lastMessage.$data ? this.lastMessage.$data.peso : 0
         const suffix = peso > 0 ? 'Priority' : 'Normal'
-        return this.config[prefix + suffix] || this.config[fallback + suffix]
+        return this.config[prefix + suffix] || this.config[(fallback || prefix) + suffix]
       }
     },
     watch: {
@@ -177,17 +176,21 @@
       document.addEventListener('fullscreenchange', () => {
         this.isFullscreen = !!document.fullscreenElement
       })
+      // Initial message
+      if (this.message && this.message.id) {
+        this.lastMessage = this.message
+      }
     }
   }
 </script>
 
 <style lang="sass" scoped>
   .novosga-modern
-    .layout-content
-      position: fixed
-      width: 100%
-      height: 100%
-      overflow: hidden
+    position: fixed
+    width: 100%
+    height: 100%
+    overflow: hidden
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 
     .fullscreen-control
       position: fixed
@@ -199,13 +202,13 @@
       cursor: pointer
       background-color: rgba(0, 0, 0, 0.5)
       color: white
-      width: 5vh
-      height: 5vh
+      width: 6vh
+      height: 6vh
       border-radius: 50%
       display: flex
       align-items: center
       justify-content: center
-      font-size: 2.5vh
+      font-size: 3vh
       
       &:hover
         opacity: 1
@@ -216,168 +219,128 @@
 
     .main-grid
       display: grid
-      grid-template-columns: 1fr 25vw
-      grid-template-rows: 15vh 1fr 15vh
+      grid-template-columns: 1fr 30vw
+      grid-template-rows: 1fr 20vh
       height: 100vh
-      gap: 0
-
-      @media (max-width: 1024px)
-        grid-template-columns: 1fr 30vw
-        grid-template-rows: 12vh 1fr 12vh
-
-      @media (max-width: 768px)
-        grid-template-columns: 1fr
-        grid-template-rows: 10vh 1fr 10vh
-        
-        .sidebar-right
-          display: none
-
-    .header-section
-      grid-column: 1 / -1
-      display: flex
-      align-items: center
-      justify-content: center
-      padding: 2vh
-      border-bottom: 2px solid rgba(0, 0, 0, 0.1)
-
-      .clock
-        .time
-          span
-            font-size: 4vw
-          span.hours
-            font-weight: bold
-          span.seconds
-            font-style: italic
-        .date
-          text-align: center
-          span
-            font-size: 2vw
-            font-weight: bold
+      width: 100vw
 
     .main-content
       grid-column: 1
-      grid-row: 2
+      grid-row: 1
+      background-color: #000
       display: flex
       align-items: center
       justify-content: center
-      padding: 2vh
       overflow: hidden
 
       .video-container
         width: 100%
         height: 100%
-        display: flex
-        align-items: center
-        justify-content: center
-
+        
         .video-player
           width: 100%
           height: 100%
-          object-fit: contain
-          border-radius: 8px
-
-      .featured-message
-        text-align: center
-        .title
-          font-size: 25vw
-          font-weight: bold
-          line-height: 1
-        .subtitle
-          font-size: 8vw
-          margin-top: 1vh
-        .description
-          font-size: 8vw
-          margin-top: 1vh
+          border: none
+        
+        .no-video
+          width: 100%
+          height: 100%
+          display: flex
+          align-items: center
+          justify-content: center
+          background: radial-gradient(circle, #222 0%, #000 100%)
+          
+          .main-logo-placeholder
+            max-width: 50%
+            max-height: 50%
+            opacity: 0.5
 
     .sidebar-right
       grid-column: 2
-      grid-row: 2
+      grid-row: 1 / span 2
       display: flex
       flex-direction: column
-      border-left: 2px solid rgba(0, 0, 0, 0.1)
-      overflow-y: auto
+      border-left: 1px solid rgba(255, 255, 255, 0.1)
 
-      .sidebar-header
-        flex: 1
-        padding: 1.5vh
-        overflow-y: auto
-
-        .title
-          text-align: center
-          font-weight: bold
-          margin-bottom: 1.5vh
-          font-size: 2.5vh
-
-        .history
-          .message
-            background-color: transparent
-            border-left: 4px solid rgba(0, 0, 0, 0.3)
-            padding-left: 1rem
-            margin-bottom: 1rem
-
-            span
-              text-align: left
-              display: block
-            .title
-              font-size: 6vh
-              font-weight: bold
-              text-align: left
-              margin-bottom: 0.5vh
-            .subtitle
-              font-size: 3vh
-              font-style: italic
-              text-align: left
-
-    .footer-section
-      grid-column: 1 / -1
-      display: grid
-      grid-template-columns: 1fr 1fr
-      align-items: center
-      padding: 1.5vh 2vh
-      border-top: 2px solid rgba(0, 0, 0, 0.1)
-
-      @media (max-width: 768px)
-        grid-template-columns: 1fr
-
-      .footer-left
+      .sidebar-header-section
+        height: 20vh
         display: flex
         align-items: center
-        gap: 1.5vh
+        justify-content: center
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+        padding: 2vh
 
-        .logo
-          height: 8vh
-          max-width: 15vw
-          object-fit: contain
+      .sidebar-content-section
+        flex: 1
+        display: flex
+        align-items: center
+        justify-content: center
+        padding: 2vh
+        text-align: center
 
-        h3
-          font-size: 2.5vh
-          font-weight: bold
-          margin: 0
+        .waiting-message
+          font-size: 2vw
+          opacity: 0.5
 
-      .footer-right
-        text-align: right
-        padding-right: 2vh
+      .sidebar-footer-section
+        height: 15vh
+        display: flex
+        align-items: center
+        justify-content: center
+        border-top: 1px solid rgba(0, 0, 0, 0.1)
+        padding: 2vh
 
-        h3
-          font-size: 2.5vh
-          font-weight: bold
-          margin: 0
+    .main-footer-section
+      grid-column: 1
+      grid-row: 2
+      padding: 1vh 2vh
+      overflow: hidden
+      border-top: 1px solid rgba(0, 0, 0, 0.1)
 
-        @media (max-width: 768px)
-          text-align: left
-          padding-right: 0
+      .history-wrapper
+        height: 100%
+        display: flex
+        align-items: center
+        
+        /deep/ .history
+          display: flex
+          flex-direction: row
+          gap: 2vw
+          width: 100%
+          overflow-x: auto
+          padding-bottom: 5px
+          
+          &::-webkit-scrollbar
+            height: 4px
+          &::-webkit-scrollbar-thumb
+            background: rgba(0,0,0,0.2)
+            border-radius: 2px
 
-    /* Scrollbar styling for sidebar */
-    .sidebar-right::-webkit-scrollbar
-      width: 8px
+          .message
+            min-width: 20vw
+            border-left: 5px solid currentColor
+            padding-left: 1vw
+            
+            .title
+              font-size: 4vh
+              font-weight: bold
+              margin: 0
+            .subtitle
+              font-size: 2vh
+              opacity: 0.8
+              margin: 0
 
-    .sidebar-right::-webkit-scrollbar-track
-      background: transparent
+    /* Estilos globais para componentes internos no modo moderno */
+    /deep/ .featured-message
+      .title
+        font-size: 8vw !important
+        line-height: 1
+      .subtitle, .description
+        font-size: 3vw !important
 
-    .sidebar-right::-webkit-scrollbar-thumb
-      background: rgba(0, 0, 0, 0.2)
-      border-radius: 4px
-
-      &:hover
-        background: rgba(0, 0, 0, 0.4)
+    /deep/ .clock
+      .time span
+        font-size: 4vw !important
+      .date span
+        font-size: 1.2vw !important
 </style>
