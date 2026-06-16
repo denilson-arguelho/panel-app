@@ -46,5 +46,14 @@
   "settings.label.retries": "Tentativas antes de exibir erro de rede",
   "settings.btn.save": "Salvar",
   "settings.services.empty": "Nenhum serviço",
-  "date_format": "DD [de] MMMM [de] YYYY"
+  "date_format": "DD [de] MMMM [de] YYYY",
+  "climate.title": "Clima e Tempo",
+  "climate.loading": "Carregando...",
+  "settings.speech.advanced": "Configurações Avançadas de Voz",
+  "settings.label.voice_gender": "Gênero da Voz",
+  "settings.label.speech_rate": "Velocidade da Fala",
+  "settings.label.speech_pitch": "Tom da Voz",
+  "settings.label.speech_volume": "Volume da Fala",
+  "settings.voice.female": "Feminino",
+  "settings.voice.male": "Masculino"
 }

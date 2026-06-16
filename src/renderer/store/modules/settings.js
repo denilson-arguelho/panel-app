@@ -23,6 +23,33 @@ const state = {
           placeholder: ''
         }
       ]
+    },
+    {
+      id: 'novosga.modern',
+      name: 'Modern',
+      options: [
+        {
+          name: 'logo',
+          label: 'Logo',
+          type: 'url',
+          required: false,
+          placeholder: 'https://'
+        },
+        {
+          name: 'footerText',
+          label: 'Footer text',
+          type: 'text',
+          required: false,
+          placeholder: 'Ex: NovoSGA - Clínica'
+        },
+        {
+          name: 'videoUrl',
+          label: 'Video URL (YouTube or MP4)',
+          type: 'url',
+          required: false,
+          placeholder: 'https://www.youtube.com/watch?v=...'
+        }
+      ]
     }
   ]
 }

@@ -120,7 +120,7 @@
                   {{ 'settings.label.page_bg_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.pageBgColorNormal">
+                  <color-picker v-model="config.pageBgColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -130,7 +130,7 @@
                   {{ 'settings.label.page_font_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.pageFontColorNormal">
+                  <color-picker v-model="config.pageFontColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -140,7 +140,7 @@
                   {{ 'settings.label.page_bg_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.pageBgColorPriority">
+                  <color-picker v-model="config.pageBgColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -150,7 +150,7 @@
                   {{ 'settings.label.page_font_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.pageFontColorPriority">
+                  <color-picker v-model="config.pageFontColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -163,7 +163,7 @@
                   {{ 'settings.label.featured_font_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.featuredFontColorNormal">
+                  <color-picker v-model="config.featuredFontColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -173,7 +173,7 @@
                   {{ 'settings.label.featured_font_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.featuredFontColorPriority">
+                  <color-picker v-model="config.featuredFontColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -183,7 +183,7 @@
                   {{ 'settings.label.history_font_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.historyFontColorNormal">
+                  <color-picker v-model="config.historyFontColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -193,7 +193,7 @@
                   {{ 'settings.label.history_font_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.historyFontColorPriority">
+                  <color-picker v-model="config.historyFontColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -206,7 +206,7 @@
                   {{ 'settings.label.sidebar_bg_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.sidebarBgColorNormal">
+                  <color-picker v-model="config.sidebarBgColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -216,7 +216,7 @@
                   {{ 'settings.label.sidebar_font_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.sidebarFontColorNormal">
+                  <color-picker v-model="config.sidebarFontColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -226,7 +226,7 @@
                   {{ 'settings.label.sidebar_bg_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.sidebarBgColorPriority">
+                  <color-picker v-model="config.sidebarBgColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -236,7 +236,7 @@
                   {{ 'settings.label.sidebar_font_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.sidebarFontColorPriority">
+                  <color-picker v-model="config.sidebarFontColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -249,7 +249,7 @@
                   {{ 'settings.label.footer_bg_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.footerBgColorNormal">
+                  <color-picker v-model="config.footerBgColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -259,7 +259,7 @@
                   {{ 'settings.label.footer_font_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.footerFontColorNormal">
+                  <color-picker v-model="config.footerFontColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -269,7 +269,7 @@
                   {{ 'settings.label.footer_bg_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.footerBgColorPriority">
+                  <color-picker v-model="config.footerBgColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -279,7 +279,7 @@
                   {{ 'settings.label.footer_font_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.footerFontColorPriority">
+                  <color-picker v-model="config.footerFontColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -292,7 +292,7 @@
                   {{ 'settings.label.clock_bg_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.clockBgColorNormal">
+                  <color-picker v-model="config.clockBgColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -302,7 +302,7 @@
                   {{ 'settings.label.clock_font_color_normal'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.clockFontColorNormal">
+                  <color-picker v-model="config.clockFontColorNormal"></color-picker>
                 </div>
               </div>
             </div>
@@ -312,7 +312,7 @@
                   {{ 'settings.label.clock_bg_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.clockBgColorPriority">
+                  <color-picker v-model="config.clockBgColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -322,7 +322,7 @@
                   {{ 'settings.label.clock_font_color_priority'|trans }}
                 </label>
                 <div class="control">
-                  <input class="input is-medium" type="text" placeholder="#000000" v-model="config.clockFontColorPriority">
+                  <color-picker v-model="config.clockFontColorPriority"></color-picker>
                 </div>
               </div>
             </div>
@@ -491,6 +491,65 @@
             </div>
           </div>
 
+          <h3 class="title">{{ 'settings.speech.advanced'|trans }}</h3>
+
+          <div class="columns">
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">
+                  {{ 'settings.label.voice_gender'|trans }}
+                </label>
+                <div class="control is-expanded has-icons-left">
+                  <span class="select is-fullwidth">
+                    <select v-model="config.voiceGender">
+                      <option value="female">{{ 'settings.voice.female'|trans }}</option>
+                      <option value="male">{{ 'settings.voice.male'|trans }}</option>
+                    </select>
+                  </span>
+                  <span class="icon is-left">
+                    <i class="fa fa-microphone"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">
+                  {{ 'settings.label.speech_rate'|trans }}
+                </label>
+                <div class="control">
+                  <input class="slider" type="range" min="0.5" max="2" step="0.1" v-model.number="config.speechRate" :title="config.speechRate">
+                  <span class="help">{{ config.speechRate }}x</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">
+                  {{ 'settings.label.speech_pitch'|trans }}
+                </label>
+                <div class="control">
+                  <input class="slider" type="range" min="0.5" max="2" step="0.1" v-model.number="config.speechPitch" :title="config.speechPitch">
+                  <span class="help">{{ config.speechPitch }}x</span>
+                </div>
+              </div>
+            </div>
+            <div class="column is-6">
+              <div class="field">
+                <label class="label">
+                  {{ 'settings.label.speech_volume'|trans }}
+                </label>
+                <div class="control">
+                  <input class="slider" type="range" min="0" max="1" step="0.1" v-model.number="config.speechVolume" :title="(config.speechVolume * 100).toFixed(0) + '%'">
+                  <span class="help">{{ (config.speechVolume * 100).toFixed(0) }}%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <hr>
 
           <div class="field is-grouped is-grouped-right">
@@ -513,6 +572,7 @@
   import audio from '@/services/audio'
   import speech from '@/services/speech'
   import { log } from '@/util/functions'
+  import ColorPicker from '@/components/ColorPicker.vue'
 
   function load (ctx, isInit) {
     ctx.config = JSON.parse(JSON.stringify(ctx.$store.state.config))
@@ -524,6 +584,10 @@
     ctx.config.services = ctx.config.services || []
     ctx.config.alert = ctx.config.alert || audio.alertsAvailable.Default
     ctx.config.speech = !!ctx.config.speech
+    ctx.config.voiceGender = ctx.config.voiceGender || 'female'
+    ctx.config.speechRate = ctx.config.speechRate || 1
+    ctx.config.speechPitch = ctx.config.speechPitch || 1
+    ctx.config.speechVolume = ctx.config.speechVolume || 1
 
     ctx.config.pageBgColorNormal = ctx.config.pageBgColorNormal || '#FFFFFF'
     ctx.config.pageFontColorNormal = ctx.config.pageFontColorNormal || '#000000'
@@ -577,6 +641,9 @@
   }
 
   export default {
+    components: {
+      ColorPicker
+    },
     name: 'Settings',
     data () {
       return {
@@ -683,7 +750,12 @@
           '21',
           'mesa',
           '5'
-        ], lang).then(() => {
+        ], lang, {
+          voiceGender: this.config.voiceGender || 'female',
+          rate: this.config.speechRate || 1,
+          pitch: this.config.speechPitch || 1,
+          volume: this.config.speechVolume || 1
+        }).then(() => {
           log('Testing end')
         }, (e) => {
           log('Testing error', e)
@@ -703,4 +775,14 @@
       max-height: 60px
   .columns .column
     padding: 2rem
+  
+  .slider
+    width: 100%
+    cursor: pointer
+  
+  .help
+    display: block
+    margin-top: 0.5rem
+    font-size: 0.875rem
+    color: #7a7a7a
 </style>
