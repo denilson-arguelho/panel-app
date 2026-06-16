@@ -1,4 +1,4 @@
-# Painel Web
+# Painel Web (Modern Layout Enabled)
 
 Este repositório possui o código do Painel de exibição de senhas do [NovoSGA](http://github.com/novosga/novosga), podendo utilizar-se dos releases disponíveis ou editar o código e personalizá-lo caso queira.
 
