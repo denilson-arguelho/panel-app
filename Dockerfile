@@ -1,34 +1,35 @@
-# Stage 1: Build
+# STAGE 1: Build
 FROM node:10 AS build
 
 WORKDIR /app
 
-COPY . /app
+# Install dependencies separately to leverage Docker cache
+COPY package*.json ./
+RUN npm install
 
-RUN npm install && \
-    npm run build:web
+# Copy all files and build
+COPY . .
+RUN npm run build:web
 
-# Stage 2: Production
-FROM nginx:alpine
+# STAGE 2: Production
+FROM nginx:stable-alpine
 
-# Remove default nginx static assets
-RUN rm -rf /usr/share/nginx/html/*
+# Clean up default nginx files
+RUN rm -rf /usr/share/nginx/html/* && \
+    rm -rf /etc/nginx/conf.d/*
 
-# Copy built assets from stage 1
+# Copy build result from Stage 1
+# IMPORTANT: Verify if the folder is really dist/web
 COPY --from=build /app/dist/web /usr/share/nginx/html
 
-# Disable default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
-
-# Custom nginx config with cache busting and explicit root
+# Create a fail-proof nginx config
 RUN echo 'server { \
     listen 80; \
     server_name _; \
     root /usr/share/nginx/html; \
     index index.html; \
     location / { \
-        try_files $uri $uri/ /index.html =404; \
-        add_header Cache-Control "no-store, no-cache, must-revalidate"; \
+        try_files $uri $uri/ /index.html; \
     } \
 }' > /etc/nginx/conf.d/panel.conf
 
