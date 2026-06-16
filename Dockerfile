@@ -1,15 +1,39 @@
-FROM node:8 AS build
+# Stage 1: Build
+FROM node:10-slim AS build
+
+# Install build dependencies for node-sass and other native modules
+RUN apt-get update && apt-get install -y \
+    python \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-COPY . /app
+# Copy package files and install dependencies
+COPY package*.json ./
+RUN npm install
 
-RUN npm install && \
-    npm run build:web
+# Copy source and build
+COPY . .
+RUN npm run build:web
 
+# Stage 2: Production
 FROM nginx:alpine
 
-COPY --from=build --chown=nginx:nginx /app/dist/web /usr/share/nginx/html
+# Copy built assets from stage 1
+# Note: based on webpack.web.config.js, the output path is dist/web
+COPY --from=build /app/dist/web /usr/share/nginx/html
+
+# Custom nginx config to handle SPA routing if needed
+RUN echo 'server { \
+    listen 80; \
+    location / { \
+        root /usr/share/nginx/html; \
+        index index.html; \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

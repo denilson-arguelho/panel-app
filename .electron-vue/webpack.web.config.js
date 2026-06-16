@@ -107,7 +107,6 @@ let webConfig = {
     new webpack.DefinePlugin({
       'process.env.IS_WEB': 'true'
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   ],
   output: {
@@ -127,6 +126,10 @@ let webConfig = {
 /**
  * Adjust webConfig for production settings
  */
+if (process.env.NODE_ENV !== 'production') {
+  webConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
+}
+
 if (process.env.NODE_ENV === 'production') {
   webConfig.devtool = ''
 
