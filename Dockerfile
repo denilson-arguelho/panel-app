@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . /app
 
 RUN npm install && \
+    mkdir -p dist/web && \
     npm run build:web
 
 FROM nginx:alpine
