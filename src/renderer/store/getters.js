@@ -1,6 +1,7 @@
 
 export const theme = state => {
-  return 'Default'
+  const theme = (state.config && state.config.theme) || 'novosga.modern'
+  return theme
 }
 
 export const message = state => {
