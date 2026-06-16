@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  panel-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: panel-app
+    restart: always
+    ports:
+      - "8003:80"
+    networks:
+      - panel-network
+
+networks:
+  panel-network:
+    driver: bridge
